@@ -1,277 +1,0 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>رحلة في جمال الإسلام</title>
-  <link rel="manifest" href="manifest.json">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-  <!-- HEADER -->
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo-badge" aria-hidden="true">☪</div>
-      <div class="brand-text">
-        <div class="brand-title">رحلة في جمال الإسلام</div>
-        <div class="brand-sub">رفيق رمضاني وروحاني ذكي</div>
-      </div>
-    </div>
-
-    <nav class="nav">
-      <a href="#hero">البداية</a>
-      <a href="#smart-khatma">الختمة الذكية</a>
-      <a href="#quran-reader" class="disabled" title="سنفعّله لاحقًا">المصحف</a>
-      <a href="#mood-dua" class="disabled" title="سنفعّله لاحقًا">صيدلية الروح</a>
-    </nav>
-
-    <div class="actions">
-      <button id="themeToggle" class="btn btn-ghost" type="button" aria-pressed="false">
-        🌙 وضع رمضان
-      </button>
-      <button id="resetProgress" class="btn btn-ghost danger" type="button" title="حذف التقدم المحفوظ">
-        إعادة
-      </button>
-    </div>
-  </header>
-
-  <!-- MAIN -->
-  <main>
-
-    <!-- HERO -->
-    <section id="hero" class="section hero">
-      <div class="hero-bg" aria-hidden="true"></div>
-
-      <div class="container hero-grid">
-        <div class="hero-card glass">
-          <h1 class="h1">ابدأ رحلتك… خطوة اليوم تُغيّر قلبك</h1>
-
-          <div class="verse">
-            <div class="verse-label">آية اليوم</div>
-            <div id="verseText" class="verse-text">جارٍ التحميل…</div>
-            <div id="verseMeta" class="verse-meta"></div>
-          </div>
-
-          <div class="countdown">
-            <div class="countdown-title">الوقت حتى الإفطار (حسب المدينة)</div>
-            <div id="iftarCountdown" class="countdown-time">—</div>
-            <div id="iftarMeta" class="countdown-meta">لم نحدد المدينة بعد</div>
-          </div>
-        </div>
-
-        <div class="hero-side glass">
-          <div class="side-title">ابدأ بسرعة</div>
-          <p class="muted">
-            ادخل مدينتك لتحسب وقت الإفطار، وفعل وضع رمضان، ثم انتقل للختمة الذكية.
-          </p>
-
-          <div class="inline-form">
-            <label class="field">
-              <span class="field-label">المدينة</span>
-              <input id="cityInput" type="text" placeholder="مثال: Nazareth / Jerusalem / Haifa" autocomplete="off">
-            </label>
-
-            <button id="setCityBtn" class="btn btn-primary" type="button">تحديد</button>
-          </div>
-
-          <div class="tiny muted">
-            * لاحقًا سنجلب الموقع تلقائيًا. الآن نبدأ بالمدينة لتجنب صلاحيات المتصفح.
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SMART KHATMA -->
-    <section id="smart-khatma" class="section">
-      <div class="container">
-        <div class="section-title">
-          <h2 class="h2">الختمة الذكية</h2>
-          <p class="muted">اختر طريقتك: صفحات يوميًا أو عدد أيام لإنهاء المصحف — وسنحسب لك الورد.</p>
-        </div>
-
-        <div class="grid-2">
-          <div class="card glass">
-            <h3 class="h3">حاسبة الورد</h3>
-
-            <div class="khatma-tabs">
-              <button class="tab active" data-tab="pages">بالصفحات/اليوم</button>
-              <button class="tab" data-tab="days">بعدد الأيام</button>
-              <button class="tab" data-tab="ramadan">حسب المتبقي لرمضان</button>
-            </div>
-
-            <!-- TAB: pages/day -->
-            <div class="tab-panel active" data-panel="pages">
-              <div class="form-grid">
-                <label class="field">
-                  <span class="field-label">كم صفحة تريد أن تقرأ يوميًا؟</span>
-                  <input id="pagesPerDay" type="number" min="1" max="604" value="4">
-                </label>
-
-                <button id="calcByPagesBtn" class="btn btn-primary" type="button">احسب</button>
-              </div>
-
-              <div class="result" id="resultPages">—</div>
-            </div>
-
-            <!-- TAB: days -->
-            <div class="tab-panel" data-panel="days">
-              <div class="form-grid">
-                <label class="field">
-                  <span class="field-label">خلال كم يوم تريد إنهاء المصحف؟</span>
-                  <input id="daysToFinish" type="number" min="1" max="365" value="30">
-                </label>
-
-                <button id="calcByDaysBtn" class="btn btn-primary" type="button">احسب</button>
-              </div>
-
-              <div class="result" id="resultDays">—</div>
-            </div>
-
-            <!-- TAB: ramadan remaining -->
-            <div class="tab-panel" data-panel="ramadan">
-              <p class="muted" style="margin-top:0">
-                احسب “ورد رمضان” تلقائيًا: (604 ÷ الأيام المتبقية لرمضان).
-                <br>تقدر تغير تاريخ بداية رمضان يدويًا إذا تحب.
-              </p>
-
-              <div class="form-grid">
-                <label class="field">
-                  <span class="field-label">تاريخ بداية رمضان (تقديري)</span>
-                  <input id="ramadanStart" type="date">
-                </label>
-
-                <button id="calcRamadanBtn" class="btn btn-primary" type="button">احسب</button>
-              </div>
-
-              <div class="result" id="resultRamadan">—</div>
-            </div>
-          </div>
-
-          <div class="card glass">
-            <h3 class="h3">تقدّمك</h3>
-
-            <div class="progress-wrap">
-              <div class="progress-meta">
-                <span>أنجزت: <strong id="donePages">0</strong> صفحة</span>
-                <span>المتبقي: <strong id="leftPages">604</strong> صفحة</span>
-              </div>
-
-              <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="604">
-                <div id="progressFill" class="progress-fill"></div>
-              </div>
-
-              <div class="progress-actions">
-                <button id="minusBtn" class="btn btn-ghost" type="button">- صفحة</button>
-                <button id="plusBtn" class="btn btn-primary" type="button">+ صفحة</button>
-                <button id="add5Btn" class="btn btn-ghost" type="button">+ 5</button>
-              </div>
-
-              <div class="tiny muted">
-                * محفوظ تلقائيًا حتى لو سكّرت المتصفح (LocalStorage).
-              </div>
-            </div>
-
-            <hr class="hr">
-
-            <div class="today-plan">
-              <div class="today-title">ورد اليوم المقترح</div>
-              <div id="todaySuggestion" class="today-value">—</div>
-              <div id="todayHint" class="tiny muted">احسب من الحاسبة لتظهر توصية واضحة.</div>
-            </div>
-          </div>
-        </div>
-
-        
-
-       <section id="quran-reader" class="section">
-  <div class="container">
-    <div class="section-title">
-      <h2 class="h2">المصحف التفاعلي</h2>
-      <p class="muted">اختر سورة، اقرأ، واضغط على الآية لعرض التفسير</p>
-    </div>
-
-    <div class="quran-controls glass">
-  <label class="field">
-    <span class="field-label">اختر سورة</span>
-    <select id="surahSelect"></select>
-  </label>
-</div>
-
-<!-- 🎧 مشغل التلاوة الاحترافي -->
-<div class="quran-player glass">
-  <div class="player-buttons">
-    <button id="playAudioBtn" class="btn btn-primary">▶ تشغيل</button>
-    <button id="pauseAudioBtn" class="btn btn-ghost">⏸ إيقاف مؤقت</button>
-    <button id="stopAudioBtn" class="btn btn-ghost">⏹ إيقاف</button>
-  </div>
-
-  <div class="player-info">
-    الآية الحالية: <span id="currentAyahNum">—</span>
-  </div>
-
-  <div class="progress-bar-audio">
-    <div id="audioProgressFill"></div>
-  </div>
-</div>
-
-
-    <div id="ayahContainer" class="ayah-container glass"></div>
-  </div>
-</section>
-
-
-      </div>
-    </section>
-    <!-- صيدلية الروح -->
-<section id="mood-dua" class="section">
-  <div class="container">
-    <div class="section-title">
-      <h2 class="h2">صيدلية الروح</h2>
-      <p class="muted">اختر حالتك النفسية وخذ جرعتك الإيمانية 🤍</p>
-    </div>
-
-    <div class="mood-grid">
-      <button class="feeling-btn" data-feeling="sad">😔 حزين</button>
-      <button class="feeling-btn" data-feeling="anxious">😟 قلق</button>
-      <button class="feeling-btn" data-feeling="tired">😩 متعب</button>
-      <button class="feeling-btn" data-feeling="lost">🧭 ضايع</button>
-      <button class="feeling-btn" data-feeling="grateful">🤲 أريد الشكر</button>
-    </div>
-
-    <div class="spiritual-result glass">
-      <h3 id="spiritualTitle">الجرعة الروحية</h3>
-      <p id="spiritualAyah">—</p>
-      <p id="spiritualDhikr">—</p>
-      <p id="spiritualDua">—</p>
-    </div>
-  </div>
-</section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="container footer-inner">
-      <div class="muted">© رحلة في جمال الإسلام — تذكّر: “ألا بذكر الله تطمئن القلوب”.</div>
-      <div class="muted">نسخة أولية MVP — سنضيف المصحف والتفسير والأذكار لاحقًا.</div>
-    </div>
-  </footer>
-
-  <script src="app.js"></script>
-  <!-- Tafsir Modal -->
-<div id="tafsirModal" class="modal hidden">
-  <div class="modal-overlay" id="modalOverlay"></div>
-  <div class="modal-content">
-    <button id="closeModal" class="modal-close">✖</button>
-    <h3 id="tafsirTitle">تفسير الآية</h3>
-    <p id="tafsirText">...</p>
-  </div>
-</div>
-
-</body>
-</html>
